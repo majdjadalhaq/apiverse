@@ -1,12 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
 
 export default function LoginPage() {
+  // Wrap the body so `useSearchParams` can bail out to the fallback at
+  // prerender time instead of failing the whole page build.
+  return (
+    <Suspense fallback={<LoginSkeleton />}>
+      <LoginBody />
+    </Suspense>
+  )
+}
+
+function LoginSkeleton() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-black text-neutral-500">
+      Loading…
+    </main>
+  )
+}
+
+function LoginBody() {
   const supabase = createClient()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState<'github' | 'google' | null>(null)
