@@ -17,7 +17,22 @@ export async function fetchApis(): Promise<PublicApi[]> {
       return data as PublicApi[]
     }
   } catch {
-    // Supabase client could throw if env vars aren't wired — fall through.
+    // Supabase client throws when env vars aren't wired — fall through.
   }
   return [...PUBLIC_APIS].sort((a, b) => a.name.localeCompare(b.name))
+}
+
+export async function fetchApiBySlug(slug: string): Promise<PublicApi | null> {
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from('apis')
+      .select('*')
+      .eq('slug', slug)
+      .maybeSingle()
+    if (data) return data as PublicApi
+  } catch {
+    // Fall through to in-memory lookup.
+  }
+  return PUBLIC_APIS.find((api) => api.slug === slug) ?? null
 }
