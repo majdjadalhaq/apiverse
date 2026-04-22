@@ -28,7 +28,7 @@ No keys. No `curl`. No swearing at CORS.
 npm install
 
 # 2. Set up environment
-cp .env.local.example .env.local
+cp .env.example .env.local
 # Fill in Supabase credentials from your project dashboard
 
 # 3. Run migrations (once)
@@ -78,10 +78,34 @@ This started as a portfolio piece and became something I actually wanted to exis
 
 - ✅ Browse + search + filter APIs by category
 - ✅ Live sandboxed demos with parameter inputs
-- ⏳ Bookmarks + personal collections
-- ⏳ Community-submitted demos with upvotes
-- ⏳ Comments + realtime updates
+- ✅ Bookmarks + personal collections
+- ✅ Community-submitted demos with upvotes and comments
+- ✅ User profile page
 - ⏳ API key manager (encrypted per-user)
+- ⏳ Realtime comment/upvote updates
+
+---
+
+## Deploy
+
+Production runs on Vercel, connected directly to `main` via the GitHub integration. Every PR gets an isolated preview URL.
+
+**Required env vars** (set in the Vercel project dashboard under Settings → Environment Variables):
+
+| Key | Scope | Source |
+|-----|-------|--------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Preview + Production | Supabase → Settings → API |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Preview + Production | Supabase → Settings → API |
+| `SUPABASE_SERVICE_ROLE_KEY` | Production only (server-only) | Supabase → Settings → API |
+
+See [`.env.example`](./.env.example) for the local-dev equivalents.
+
+**CI** runs on every push and PR via [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
+
+1. `npm run lint`
+2. `npx tsc --noEmit`
+3. `npm test`
+4. `npm run build`
 
 ---
 
