@@ -105,7 +105,7 @@ WS3 (composer + dashboards)
 
 **Day 1 (morning):** WS1 — single PR, 6 commits, ~45 min + CI. Merge.
 **Day 1 (afternoon) – Day 2:** WS2 shell pass — tokens + 4 primitives + hero + motion config. Land as a merged branch (not main yet — visual baselines still pending).
-**Day 3–4:** WS2 mesh pass — 6 parallel route-skinner subagents + integration agent + Playwright visual baselines. Merge to main.
+**Day 3–4:** WS2 mesh pass — 6 parallel route-skin developers + integration engineer + Playwright visual baselines. Merge to main.
 **Day 3 (in parallel with WS2 route pass):** WS3 Branch 1 `feat/composer-foundations` starts (pure types + transformers + topo-sort — no UI dependency yet). Merge when green.
 **Day 4:** WS3 Branch 2 `feat/composer-runtime` (DAG executor + sandbox bridge + AES-GCM + RLS). Merge when green.
 **Day 5:** WS3 Branch 3 `feat/composer-ui` — now depends on WS2 primitives (which shipped on Day 3–4). Mesh 4 node coders. Merge.
@@ -131,7 +131,7 @@ Mesh-inside-Hierarchical is the repeating pattern: a stable shell that guarantee
 
 | Risk | Workstream | Mitigation |
 |---|---|---|
-| Design-token churn mid-mesh | WS2 | Lock tokens in shell pass before mesh-launching route coders |
+| Design-token churn mid-mesh | WS2 | Lock tokens in shell pass before branching out route developers |
 | Primitive API drift between routes | WS2 | Integration agent reconciles imports before visual baselines |
 | RLS bypass in Composer | WS3 | Dedicated security red-team pass before merge |
 | Sandbox escape via postMessage | WS3 | correlationId + origin check + structured message schema |

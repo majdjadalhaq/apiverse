@@ -86,22 +86,22 @@ Bulldoze every route in a single "v2" commit.
 
 **Swarm:** **Mesh inside a hierarchical shell.**
 - Hierarchical: tokens → primitives → hero → route-skins → visual baselines.
-- Mesh: within the route-skins stage, each route (explore / detail / collections / community / profile / login) is independent and can be implemented in parallel by separate coder subagents.
+- Mesh: within the route-skins stage, each route (explore / detail / collections / community / profile / login) is independent and can be implemented in parallel by separate developers.
 
-**Agent assignment:**
+**Role assignment:**
 - **Architect:** already shipped in the spec
-- **Coder (shell pass):** one subagent for tokens + primitives + hero + section choreography
-- **Coders (route pass, mesh):** six parallel subagents, one per route, each given the primitives and the spec's per-route notes
-- **Tester:** Playwright screenshot baselines + Vitest unit tests for primitives
-- **Reviewer:** `feature-dev:code-reviewer` + manual Lighthouse runs + a `prefers-reduced-motion` smoke pass
+- **Developer (shell pass):** one engineer for tokens + primitives + hero + section choreography
+- **Developers (route pass, mesh):** six engineers in parallel, one per route, each handed the primitives and the spec's per-route notes
+- **QA:** Playwright screenshot baselines + Vitest unit tests for primitives
+- **Reviewer:** PR reviewer + manual Lighthouse runs + a `prefers-reduced-motion` smoke pass
 
 ---
 
 ## Execution checklist
 
 - [ ] Shell pass commits green: tokens, primitives, hero, motion config
-- [ ] Mesh-launch 6 route coder subagents (each gets spec section + primitive contracts)
-- [ ] Integration agent reconciles shared import paths / style tokens / shared types
+- [ ] Branch out 6 parallel route-skin developers (each gets spec section + primitive contracts)
+- [ ] Integration engineer reconciles shared import paths / style tokens / shared types
 - [ ] Playwright visual baselines generated + committed
 - [ ] Lighthouse: landing mobile, LCP / CLS / Perf / A11y
 - [ ] Reduced-motion manual QA (toggle OS setting, verify static fallbacks)

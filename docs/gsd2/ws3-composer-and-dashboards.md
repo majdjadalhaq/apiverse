@@ -90,16 +90,16 @@ One branch, one review. Ship both features together.
 
 **Swarm:** **Hierarchical with a small Mesh slice inside the UI branch.**
 - **Hierarchical (outer shell):** foundations → runtime → UI → dashboards-core → embed. No branch starts until the prior merges.
-- **Mesh (inner, only inside `feat/composer-ui` and `feat/dashboards-core`):** independent React Flow node components (pick / map / filter / merge) can be implemented by parallel coder subagents. Same for the 3 seed dashboards (Dev Pulse / Morning Brief / Crypto Watch) — independent curated content, one subagent each.
+- **Mesh (inner, only inside `feat/composer-ui` and `feat/dashboards-core`):** independent React Flow node components (pick / map / filter / merge) can be implemented by parallel developers. Same for the 3 seed dashboards (Dev Pulse / Morning Brief / Crypto Watch) — independent curated content, one developer each.
 
-**Agent assignment:**
+**Role assignment:**
 - **Architect:** already shipped in [`../specs/2026-04-22-composer-and-dashboards-design.md`](../specs/2026-04-22-composer-and-dashboards-design.md)
-- **Coder (foundations / runtime / embed):** one implementer subagent per branch, sequential
-- **Coders (UI node types, mesh):** 4 parallel subagents (one per transformer node) inside `feat/composer-ui`
-- **Coders (seed dashboards, mesh):** 3 parallel subagents (one per seed) inside `feat/dashboards-core`
-- **Tester:** Vitest unit tests for pure transformers + topo-sort + visibility scheduler, Playwright e2e for the compose happy path and a dashboard embed
-- **Security reviewer:** `feature-dev:code-reviewer` + manual red-team of RLS policies + a sandbox-escape smoke test (try to postMessage from parent with wrong `correlationId`)
-- **Reviewer:** `feature-dev:code-reviewer` per PR + manual Lighthouse per route
+- **Developer (foundations / runtime / embed):** one engineer per branch, sequential
+- **Developers (UI node types, mesh):** 4 engineers in parallel (one per transformer node) inside `feat/composer-ui`
+- **Developers (seed dashboards, mesh):** 3 engineers in parallel (one per seed) inside `feat/dashboards-core`
+- **QA:** Vitest unit tests for pure transformers + topo-sort + visibility scheduler, Playwright e2e for the compose happy path and a dashboard embed
+- **Security reviewer:** PR reviewer + manual red-team of RLS policies + a sandbox-escape smoke test (try to postMessage from parent with wrong `correlationId`)
+- **Reviewer:** PR reviewer per PR + manual Lighthouse per route
 
 ---
 
@@ -107,8 +107,8 @@ One branch, one review. Ship both features together.
 
 - [ ] Branch 1 `feat/composer-foundations` — types, pure transformers, topo-sort, tests green → PR
 - [ ] Branch 2 `feat/composer-runtime` — DAG executor, sandbox bridge, AES-GCM vault, Zod'd server actions, RLS policies + integration test → PR
-- [ ] Branch 3 `feat/composer-ui` — mesh-launch 4 node coders, wire into React Flow canvas, passphrase modal, share-link read → PR
-- [ ] Branch 4 `feat/dashboards-core` — tables, scheduler, mesh-launch 3 seed-dashboard coders, fork flow → PR
+- [ ] Branch 3 `feat/composer-ui` — branch out 4 parallel node developers, wire into React Flow canvas, passphrase modal, share-link read → PR
+- [ ] Branch 4 `feat/dashboards-core` — tables, scheduler, branch out 3 parallel seed-dashboard developers, fork flow → PR
 - [ ] Branch 5 `feat/dashboards-embed` — embed route, sandbox iframe, public RLS read → PR
 - [ ] Sandbox-escape red-team pass (try cross-origin postMessage, try leak via URL, try spoof correlationId)
 - [ ] Lighthouse per route: `/compose`, `/dashboards`, `/dashboards/[slug]`, `/dashboards/[slug]/embed`

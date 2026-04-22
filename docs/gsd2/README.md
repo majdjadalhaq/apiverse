@@ -21,14 +21,14 @@ Pattern Score — recorded post-ship for reuse
 | Role | Responsibility | Artifact |
 |------|----------------|----------|
 | **Architect** | Spec the design, data model, contracts | `docs/specs/*-design.md` |
-| **Coder** | Implement against spec, TDD, small commits | Feature branch + PR |
-| **Tester** | Vitest unit + Playwright e2e, edge cases | `tests/` |
+| **Developer** | Implement against spec, TDD, small commits | Feature branch + PR |
+| **QA** | Vitest unit + Playwright e2e, edge cases | `tests/` |
 | **Reviewer** | Awwwards / a11y / perf / security / UX pass | PR review + `docs/gsd2/patterns/*.md` |
 
 ## Swarm shape
 
-- **Hierarchical** — default. Sequential: Architect → Coder → Tester → Reviewer.
-- **Mesh** — only when sub-tasks are truly independent and ≥ 2. Coders in parallel → Integration → Reviewer.
+- **Hierarchical** — default. Sequential: Architect → Developer → QA → Reviewer.
+- **Mesh** — only when sub-tasks are truly independent and ≥ 2. Parallel developers → Integration → Reviewer.
 
 ## Decision rule
 

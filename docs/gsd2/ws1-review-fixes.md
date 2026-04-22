@@ -82,20 +82,20 @@ Fold into the UI overhaul. Zero extra review cycles.
 - **B** — unnecessary ceremony for a < 1h change; two rounds of review is wasted.
 - **C** — defeats the point of SEO hygiene being visible and verifiable on its own.
 
-**Swarm:** **Hierarchical** (Architect done — spec exists → Coder → Tester → Reviewer).
+**Swarm:** **Hierarchical** (Architect done — spec exists → Developer → QA → Reviewer).
 
-**Agent assignment:**
+**Role assignment:**
 - **Architect:** already shipped in [`../specs/2026-04-22-review-fixes-design.md`](../specs/2026-04-22-review-fixes-design.md)
-- **Coder:** subagent (one implementer, six commits)
-- **Tester:** TDD steps already encoded in the plan (NavLink test)
-- **Reviewer:** `feature-dev:code-reviewer` + manual Lighthouse pass
+- **Developer:** one engineer, six conventional commits
+- **QA:** TDD steps already encoded in the plan (NavLink test)
+- **Reviewer:** PR reviewer + manual Lighthouse pass
 
 ---
 
 ## Execution checklist
 
 - [ ] Checkout `chore/review-fixes` from main
-- [ ] Dispatch implementer subagent with the plan as input
+- [ ] Assign developer the plan as scope of work
 - [ ] After each commit, run `npm run lint && npx tsc --noEmit && npm test`
 - [ ] Spec-compliance review (every success-metric met)
 - [ ] Code-quality review (DRY, focus rings consistent, no dead imports)
