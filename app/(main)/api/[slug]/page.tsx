@@ -5,6 +5,10 @@ import { fetchApis, fetchApiBySlug } from '@/lib/api-data/fetch-apis'
 import { getDemoConfig } from '@/lib/demo-sandbox/demo-configs'
 import { DemoControls } from '@/components/demo/DemoControls'
 import { ApiCard } from '@/components/api-card/ApiCard'
+import { BookmarkButton } from '@/components/api-card/BookmarkButton'
+import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu'
+import { createClient } from '@/lib/supabase/server'
+import type { ApiRow } from '@/lib/api-data/types'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -32,6 +36,49 @@ export default async function ApiDetailPage({ params }: PageProps) {
     .filter((a) => a.category === api.category && a.slug !== api.slug)
     .slice(0, 3)
 
+  // Bookmarks are DB-backed, so they only light up once the catalog has
+  // been seeded (every row has an `id`). Fallback rows are slug-only.
+  const apiRow = 'id' in api ? (api as ApiRow) : null
+  let isLoggedIn = false
+  let isBookmarked = false
+  let userCollections: { id: string; name: string; hasApi: boolean }[] = []
+  if (apiRow) {
+    const supabase = await createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    isLoggedIn = !!user
+    if (user) {
+      const [{ data: existing }, { data: collections }, { data: joined }] =
+        await Promise.all([
+          supabase
+            .from('bookmarks')
+            .select('id')
+            .eq('user_id', user.id)
+            .eq('api_id', apiRow.id)
+            .maybeSingle(),
+          supabase
+            .from('collections')
+            .select('id, name')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+            .returns<{ id: string; name: string }[]>(),
+          supabase
+            .from('collection_apis')
+            .select('collection_id')
+            .eq('api_id', apiRow.id)
+            .returns<{ collection_id: string }[]>(),
+        ])
+      isBookmarked = !!existing
+      const joinedSet = new Set((joined ?? []).map((j) => j.collection_id))
+      userCollections = (collections ?? []).map((c) => ({
+        id: c.id,
+        name: c.name,
+        hasApi: joinedSet.has(c.id),
+      }))
+    }
+  }
+
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
       <Link
@@ -49,14 +96,32 @@ export default async function ApiDetailPage({ params }: PageProps) {
             {api.description}
           </p>
         </div>
-        <a
-          href={api.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-neutral-300 px-4 py-2 text-sm font-medium transition hover:border-neutral-500 dark:border-neutral-700 dark:hover:border-neutral-500"
-        >
-          Official docs <ExternalLinkIcon />
-        </a>
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          {apiRow && (
+            <BookmarkButton
+              apiId={apiRow.id}
+              slug={apiRow.slug}
+              initialBookmarked={isBookmarked}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
+          {apiRow && (
+            <AddToCollectionMenu
+              apiId={apiRow.id}
+              slug={apiRow.slug}
+              collections={userCollections}
+              isLoggedIn={isLoggedIn}
+            />
+          )}
+          <a
+            href={api.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full border border-neutral-300 px-4 text-sm font-medium outline-none transition hover:border-neutral-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-neutral-700 dark:hover:border-neutral-500 dark:focus-visible:ring-offset-neutral-950"
+          >
+            Official docs <ExternalLinkIcon />
+          </a>
+        </div>
       </header>
 
       <div className="my-8 flex flex-wrap gap-2">
