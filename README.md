@@ -52,7 +52,7 @@ lib/                Supabase clients, utilities, demo sandbox helpers
 public/sandbox/     Isolated iframe runner for live demos
 supabase/           Database migrations and RLS policies
 tests/              Vitest unit tests
-docs/               Plans and specs (see superpowers/plans/)
+docs/               Plans, specs, and architecture notes
 ```
 
 ---
@@ -111,7 +111,7 @@ See [`.env.example`](./.env.example) for the local-dev equivalents.
 
 ## Development plan
 
-The full implementation plan lives at [`docs/superpowers/plans/2026-04-21-apiverse.md`](./docs/superpowers/plans/2026-04-21-apiverse.md). It's built task-by-task with real PRs, TDD where it makes sense, and commits that a senior dev wouldn't be embarrassed by.
+The full implementation plan lives at [`docs/plans/2026-04-21-apiverse.md`](./docs/plans/2026-04-21-apiverse.md). It's built task-by-task with real PRs, TDD where it makes sense, and commits that a senior dev wouldn't be embarrassed by.
 
 ---
 
