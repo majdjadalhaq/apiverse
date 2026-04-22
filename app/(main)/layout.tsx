@@ -42,6 +42,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               Collections
             </Link>
             <Link
+              href="/profile"
+              className="rounded outline-none transition hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:hover:text-neutral-100 dark:focus-visible:ring-offset-neutral-950"
+            >
+              Profile
+            </Link>
+            <Link
               href="/login"
               className="rounded outline-none transition hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:hover:text-neutral-100 dark:focus-visible:ring-offset-neutral-950"
             >
