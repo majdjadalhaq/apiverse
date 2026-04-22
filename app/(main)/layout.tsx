@@ -28,6 +28,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               Explore
             </Link>
             <Link
+              href="/community"
+              className="rounded outline-none transition hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:hover:text-neutral-100 dark:focus-visible:ring-offset-neutral-950"
+            >
+              Community
+            </Link>
+            <Link
               href="/collections"
               className="rounded outline-none transition hover:text-neutral-900 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:hover:text-neutral-100 dark:focus-visible:ring-offset-neutral-950"
             >

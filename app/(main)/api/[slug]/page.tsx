@@ -7,6 +7,9 @@ import { DemoControls } from '@/components/demo/DemoControls'
 import { ApiCard } from '@/components/api-card/ApiCard'
 import { BookmarkButton } from '@/components/api-card/BookmarkButton'
 import { AddToCollectionMenu } from '@/components/collections/AddToCollectionMenu'
+import { DemoCard } from '@/components/community/DemoCard'
+import { SubmitDemoForm } from '@/components/community/SubmitDemoForm'
+import { fetchDemosForApi } from '@/lib/community/fetch-demos'
 import { createClient } from '@/lib/supabase/server'
 import type { ApiRow } from '@/lib/api-data/types'
 
@@ -40,6 +43,7 @@ export default async function ApiDetailPage({ params }: PageProps) {
   // been seeded (every row has an `id`). Fallback rows are slug-only.
   const apiRow = 'id' in api ? (api as ApiRow) : null
   let isLoggedIn = false
+  let currentUserId: string | null = null
   let isBookmarked = false
   let userCollections: { id: string; name: string; hasApi: boolean }[] = []
   if (apiRow) {
@@ -48,6 +52,7 @@ export default async function ApiDetailPage({ params }: PageProps) {
       data: { user },
     } = await supabase.auth.getUser()
     isLoggedIn = !!user
+    currentUserId = user?.id ?? null
     if (user) {
       const [{ data: existing }, { data: collections }, { data: joined }] =
         await Promise.all([
@@ -78,6 +83,8 @@ export default async function ApiDetailPage({ params }: PageProps) {
       }))
     }
   }
+
+  const demos = apiRow ? await fetchDemosForApi(apiRow.id, currentUserId) : []
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
@@ -154,6 +161,33 @@ export default async function ApiDetailPage({ params }: PageProps) {
           </div>
         )}
       </section>
+
+      {apiRow && (
+        <section className="mt-16 flex flex-col gap-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-xl font-semibold">Community demos</h2>
+            <p className="text-xs text-neutral-500">
+              {demos.length} submission{demos.length === 1 ? '' : 's'}
+            </p>
+          </div>
+
+          <SubmitDemoForm apiId={apiRow.id} slug={apiRow.slug} isLoggedIn={isLoggedIn} />
+
+          {demos.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-neutral-300 p-8 text-center text-sm text-neutral-500 dark:border-neutral-700">
+              No community demos yet — be the first to share one.
+            </div>
+          ) : (
+            <ul className="flex flex-col gap-4">
+              {demos.map((d) => (
+                <li key={d.id}>
+                  <DemoCard demo={d} slug={apiRow.slug} currentUserId={currentUserId} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="mt-16">
