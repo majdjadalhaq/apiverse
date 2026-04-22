@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SmoothScroll } from '@/components/shell/SmoothScroll'
 
 /**
  * App-shell layout for everything that isn't auth. Nav bar stays minimal
@@ -7,6 +8,7 @@ import Link from 'next/link'
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh bg-gradient-to-b from-white via-indigo-50/30 to-white dark:from-neutral-950 dark:via-indigo-950/10 dark:to-neutral-950">
+      <SmoothScroll />
       <header className="sticky top-0 z-30 border-b border-neutral-200/60 bg-white/70 backdrop-blur-md dark:border-neutral-800/60 dark:bg-neutral-950/70">
         <nav
           aria-label="Main"
